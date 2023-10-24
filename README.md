@@ -28,15 +28,13 @@ cd target
 
 OR 
 
-** Download the application **
-Download latest SpringBoot Buggy Api from [here](https://tier1app.com/dist/buggyapp/springboot-buggyapi-latest.zip).
-unzip springboot-buggyapi-latest.zip
-cd springboot-buggyapi-latest
+** Download the application jar **
+Download latest SpringBoot Buggy Api from [here](https://tier1app.com/dist/buggyapp/ycrash.springboot_buggy.api-1.0.0.jar).
+
 
 ** Run the application **
-4. Change directory into folder where cd target 
-5. java -jar  .jar
-6. Open the application in the browser http://{your-host}:8090/swagger-ui.html to invoke the java performance problems using UI
+1. java -jar  ycrash.springboot*.jar
+2. Open the application in the browser http://{your-host}:8090/swagger-ui.html to invoke the java performance problems using UI
 
 or curl command example 
 curl http://{your-host:8090}/v1/invoke/blocked-state
