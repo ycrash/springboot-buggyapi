@@ -10,24 +10,12 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DBConnectionLeakService {
 
 
-	@Value(value = "${datasource.url}")
-	private String datasourceUrl;
-
-	@Value(value = "${datasource.username}")
-	private String dbUsername;
-
-	@Value(value = "${datasource.password}")
-	private String dbPassword;
-
-	@Value(value = "${datasource.table.name}")
-	private String tableName;
 
 	private static final Logger log = LoggerFactory.getLogger(DBConnectionLeakService.class);
 
