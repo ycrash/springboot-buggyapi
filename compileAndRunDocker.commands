@@ -1,0 +1,4 @@
+mvn clean
+mvn install
+docker build -t ycrash-springboot-buggyapi .
+docker run -p 8090:8090 ycrash-springboot-buggyapi
