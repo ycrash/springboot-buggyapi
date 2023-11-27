@@ -1,8 +1,6 @@
 
 package com.ycrash.springboot.buggy.app.controller;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ycrash.springboot.buggy.app.service.blockedapp.BlockedAppDemoService;
 import com.ycrash.springboot.buggy.app.service.cpuspike.CPUSpikeDemoService;
@@ -24,8 +23,10 @@ import com.ycrash.springboot.buggy.app.service.memoryleak.MemoryLeakDemoService;
 import com.ycrash.springboot.buggy.app.service.metaspaceleak.MetaspaceLeakService;
 import com.ycrash.springboot.buggy.app.service.oomcrash.OOMCrashService;
 import com.ycrash.springboot.buggy.app.service.oomcrash.OOMNoCrashService;
+import com.ycrash.springboot.buggy.app.service.resttemplate.RestTemplateService;
 import com.ycrash.springboot.buggy.app.service.stackoverflow.StackOverflowDemoService;
 import com.ycrash.springboot.buggy.app.service.threadleak.ThreadLeakDemoService;
+import com.ycrash.springboot.buggy.app.service.webclient.WebClientService;
 
 import io.swagger.annotations.Api;
 
@@ -74,6 +75,13 @@ public class BuggyAppController {
 	
 	@Autowired
 	private FileConnectionLeakService fileConnectionLeakService;
+	
+	
+	@Autowired
+	private WebClientService webClientService;
+	
+	@Autowired
+	private RestTemplateService restClientService;
 	
 
 	
@@ -171,6 +179,52 @@ public class BuggyAppController {
 		fileConnectionLeakService.start();
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "slow-endpoint", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<Void>  slowEndPoint(@RequestParam("delayInSeconds") Integer delayInSeconds) throws Exception {
+		log.debug("HTTP Connections Leak");
+		Thread.sleep(delayInSeconds * 1000);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "image-upload", produces = { "application/json" }, method = RequestMethod.POST)
+    public ResponseEntity<String> handleImageUpload(@RequestParam("file") MultipartFile file) throws InterruptedException {
+        // Process the uploaded image (save it, perform operations, etc.)
+        // You can access the image data using file.getBytes()
+		Thread.sleep(3 * 1000);
+        // For simplicity, this example just returns a success message
+        return ResponseEntity.ok("Image uploaded successfully!");
+    }
+	
+	@RequestMapping(value = "WebClient-nio-connections", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<Void>  webClientNioConnections(@RequestParam("rest.url") String restUrl,
+														 @RequestParam("numberOfCalls") Integer numberOfCalls) throws Exception {
+		log.debug("HTTP Connections Leak");
+		webClientService.loadWebClientCalls(numberOfCalls,restUrl);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "WebClient-nio-hugeupload-connections", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<Void>  webClientHugeUploads(  @RequestParam("image.url") String imageUrl,
+			                                             @RequestParam("rest.url") String restUrl,
+														 @RequestParam("numberOfCalls") Integer numberOfCalls) throws Exception {
+		log.debug("HTTP Connections Leak");
+		webClientService.loadWebClientCalls(numberOfCalls, restUrl, imageUrl);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+
+	
+	@RequestMapping(value = "restClient-nio-hugeupload-connections", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<Void>  restClientHugeUploads(  @RequestParam("image.url") String imageUrl,
+			                                             @RequestParam("rest.url") String restUrl,
+														 @RequestParam("numberOfCalls") Integer numberOfCalls) throws Exception {
+		log.debug("HTTP Connections Leak");
+		restClientService.loadRestClientCalls(numberOfCalls, restUrl, imageUrl);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	
 	
 
 }

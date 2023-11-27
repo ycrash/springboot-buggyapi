@@ -24,7 +24,9 @@ import com.fasterxml.jackson.databind.Module;
 		"com.ycrash.springboot.buggy.app.service.metaspaceleak",
 		"com.ycrash.springboot.buggy.app.service.oomcrash",
 		"com.ycrash.springboot.buggy.app.service.stackoverflow",
-		"com.ycrash.springboot.buggy.app.service.threadleak"
+		"com.ycrash.springboot.buggy.app.service.threadleak",
+		"com.ycrash.springboot.buggy.app.service.webclient",
+		"com.ycrash.springboot.buggy.app.service.resttemplate"
 		
  })
 public class SpringBootApp implements CommandLineRunner{
