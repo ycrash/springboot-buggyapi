@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tier1App</groupId>
-	<artifactId>ycrash.springboot_buggy.api</artifactId>
+	<artifactId>ycrash.springbootbuggy.api_jdk11</artifactId>
 	<packaging>jar</packaging>
 	<name>YCrash Spring Boot - Buggy App</name>
 	<version>1.0.0</version>

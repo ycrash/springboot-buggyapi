@@ -196,13 +196,7 @@ public class BuggyAppController {
         return ResponseEntity.ok("Image uploaded successfully!");
     }
 	
-	@RequestMapping(value = "WebClient-nio-connections", produces = { "application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<Void>  webClientNioConnections(@RequestParam("rest.url") String restUrl,
-														 @RequestParam("numberOfCalls") Integer numberOfCalls) throws Exception {
-		log.debug("HTTP Connections Leak");
-		webClientService.loadWebClientCalls(numberOfCalls,restUrl);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
+
 	
 	@RequestMapping(value = "WebClient-nio-hugeupload-connections", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<Void>  webClientHugeUploads(  @RequestParam("image.url") String imageUrl,
@@ -220,7 +214,7 @@ public class BuggyAppController {
 			                                             @RequestParam("rest.url") String restUrl,
 														 @RequestParam("numberOfCalls") Integer numberOfCalls) throws Exception {
 		log.debug("HTTP Connections Leak");
-		restClientService.loadRestClientCalls(numberOfCalls, restUrl, imageUrl);
+		restClientService.loadRestClientCallsWithThreads(numberOfCalls, restUrl, imageUrl);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
