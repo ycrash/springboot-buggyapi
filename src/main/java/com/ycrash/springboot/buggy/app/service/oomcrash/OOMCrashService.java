@@ -21,7 +21,18 @@ public class OOMCrashService {
 		while (true) {
 		
 			counter++;
-			map.put("key-" + counter, "value-" + counter);
+			map.put("key-" + counter, "Large stringgggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+		               + "ggggggggggggggggggggggggggggggggggggggggggggggggggggg" + counter);
 			
 			if (counter % 1000 == 0) {
 				System.out.println("Added " + counter + " elements");

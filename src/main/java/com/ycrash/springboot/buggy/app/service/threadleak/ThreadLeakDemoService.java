@@ -14,7 +14,7 @@ import com.ycrash.springboot.buggy.app.controller.BuggyAppController;
 @Service
 public class ThreadLeakDemoService {
 
-	private static final int threadLeakSize = 100;
+	private static final int threadLeakSize = 1250;
 	
 	private static final Logger log = LoggerFactory.getLogger(ThreadLeakDemoService.class);
 
