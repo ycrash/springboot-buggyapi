@@ -20,7 +20,9 @@ public class MetaspaceLeakService {
             }
         	
         	// Keep creating classes dynamically!
-        	classPool.makeClass("com.buggyapp.metaspaceleak.MetaspaceObject" + i).toClass();
+        	String classname = "com.buggyapp.metaspaceleak.MetaspaceObject" + i;
+        	System.out.println(classname + " new classes created");
+			classPool.makeClass(classname).toClass();
         }
         
         System.out.println("Program Exited: " + (System.currentTimeMillis() - startTime) / 1000 + " seconds");

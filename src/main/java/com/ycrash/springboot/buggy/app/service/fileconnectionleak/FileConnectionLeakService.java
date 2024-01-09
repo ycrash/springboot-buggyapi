@@ -7,7 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import com.ycrash.springboot.buggy.app.service.dbconnectionleak.DBConnectionLeakService;
 
 /**
  * Service to simulate file connection leak 
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FileConnectionLeakService {
+	private static final Logger log = LoggerFactory.getLogger(DBConnectionLeakService.class);
+
 
 	private static final String SAMPLE_FILE_NAME = "buggyapp-samplefile.txt";
 
@@ -26,12 +32,16 @@ public class FileConnectionLeakService {
 		try {
 			System.out.println("Leaking File connections new");
 			reader = new BufferedReader(new FileReader(SAMPLE_FILE_NAME));
-			Thread.sleep(1000);
 			String line;
 			while ((line = reader.readLine()) != null) {
 				//IO operations
 			}
 		} catch (Exception e) {
+			log.error(e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) {
+            	log.error(element.toString());
+            }
+			
 			e.printStackTrace();
 		}
 
@@ -61,9 +71,11 @@ public class FileConnectionLeakService {
 
 	/**
 	 * Connect and leak a configured number of times with a sleep, allowing the user to attach the process to an analyzer.
+	 * @throws InterruptedException 
 	 */
-	public void start() {
+	public void start() throws InterruptedException {
 		createSampleFile();
+		Thread.sleep(1);
 		while(true) {
 			connect();
 		}

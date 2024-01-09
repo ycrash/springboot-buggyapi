@@ -17,6 +17,7 @@ import com.ycrash.springboot.buggy.app.service.blockedapp.BlockedAppDemoService;
 import com.ycrash.springboot.buggy.app.service.cpuspike.CPUSpikeDemoService;
 import com.ycrash.springboot.buggy.app.service.dbconnectionleak.DBConnectionLeakService;
 import com.ycrash.springboot.buggy.app.service.deadlock.DeadLockDemoService;
+import com.ycrash.springboot.buggy.app.service.diskspace.DiskSpaceService;
 import com.ycrash.springboot.buggy.app.service.fileconnectionleak.FileConnectionLeakService;
 import com.ycrash.springboot.buggy.app.service.httpconnectionleak.HttpConnectionLeak;
 import com.ycrash.springboot.buggy.app.service.memoryleak.MemoryLeakDemoService;
@@ -82,6 +83,9 @@ public class BuggyAppController {
 	
 	@Autowired
 	private RestTemplateService restClientService;
+	
+	@Autowired
+	private DiskSpaceService diskSpaceService;
 	
 
 	
@@ -164,6 +168,19 @@ public class BuggyAppController {
 		log.debug("DB Connections Leak");
 		dbConnectionLeakService.start(datasourceUrl,datasourceUsername,datasourcePassword,tableName);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "disk-space-fill", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<String>  diskSpaceFill(@RequestParam("drive.location") String driveLocation,
+			                                        @RequestParam("percentage.fill") Integer percentageFill) throws Exception {
+		log.debug("DB Connections Leak");
+		if( percentageFill <=100) {
+			diskSpaceService.fillDiskSpace(driveLocation,percentageFill);
+			return new ResponseEntity<String>("",HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("Fill percentage cannot be more than 90",HttpStatus.BAD_REQUEST) ;
+		}
+
 	}
 	
 	@RequestMapping(value = "http-connections-leak", produces = { "application/json" }, method = RequestMethod.GET)

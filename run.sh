@@ -1,3 +1,3 @@
 mvn clean
 mvn install
-java -jar -Xss512k -Xloggc:spring-boot-buggy-api-gc.log   target/*.jar
+/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home/bin/java -jar -Xloggc:spring-boot-buggy-api-gc.log  -Xmx250m  target/*.jar
