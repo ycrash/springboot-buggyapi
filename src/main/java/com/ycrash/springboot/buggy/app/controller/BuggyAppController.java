@@ -22,6 +22,7 @@ import com.ycrash.springboot.buggy.app.service.fileconnectionleak.FileConnection
 import com.ycrash.springboot.buggy.app.service.httpconnectionleak.HttpConnectionLeak;
 import com.ycrash.springboot.buggy.app.service.memoryleak.MemoryLeakDemoService;
 import com.ycrash.springboot.buggy.app.service.metaspaceleak.MetaspaceLeakService;
+import com.ycrash.springboot.buggy.app.service.network.NetworkLagService;
 import com.ycrash.springboot.buggy.app.service.oomcrash.OOMCrashService;
 import com.ycrash.springboot.buggy.app.service.oomcrash.OOMNoCrashService;
 import com.ycrash.springboot.buggy.app.service.resttemplate.RestTemplateService;
@@ -83,6 +84,9 @@ public class BuggyAppController {
 	
 	@Autowired
 	private RestTemplateService restClientService;
+	
+	@Autowired
+	private NetworkLagService networkLagService;
 	
 	@Autowired
 	private DiskSpaceService diskSpaceService;
@@ -173,7 +177,7 @@ public class BuggyAppController {
 	@RequestMapping(value = "disk-space-fill", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<String>  diskSpaceFill(@RequestParam("drive.location") String driveLocation,
 			                                        @RequestParam("percentage.fill") Integer percentageFill) throws Exception {
-		log.debug("DB Connections Leak");
+		log.debug("Disk Space Fill");
 		if( percentageFill <=100) {
 			diskSpaceService.fillDiskSpace(driveLocation,percentageFill);
 			return new ResponseEntity<String>("",HttpStatus.OK);
@@ -183,12 +187,22 @@ public class BuggyAppController {
 
 	}
 	
+	@RequestMapping(value = "network-lag-proxy", produces = { "application/json" }, method = RequestMethod.GET)
+	public ResponseEntity<String>  networkLag(@RequestParam("port") Integer port,
+			                                        @RequestParam("delay") Integer delay) throws Exception {
+		log.debug("Network Lag Service");
+		networkLagService.startNetworkLagProxy(port, delay);
+		return new ResponseEntity<String>("",HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "http-connections-leak", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<Void>  leakHttpConnections() throws Exception {
 		log.debug("HTTP Connections Leak");
 		httpConnectionLeak.start();
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+	
+
 	
 	@RequestMapping(value = "file-connections-leak", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<Void>  leakFileConnections() throws Exception {

@@ -124,7 +124,17 @@
     <artifactId>toxiproxy-java</artifactId>
     <version>2.1.7</version>
 </dependency>
+<dependency>
+    <groupId>org.littleshoot</groupId>
+    <artifactId>littleproxy</artifactId>
+    <version>1.1.2</version> <!-- Use the latest version available -->
+</dependency>
 
+<dependency>
+    <groupId>io.appium</groupId>
+    <artifactId>mitmproxy-java</artifactId>
+    <version>1.4</version>
+</dependency>
 
 
 	</dependencies>

@@ -18,6 +18,5 @@ public class Object1 {
 	}
 	
 	public static void doSomething() {
-		log.info("CPU Spike : Access console contineously");
 	}
 }
